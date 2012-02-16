@@ -3,6 +3,7 @@
 
 import wx
 from AboutFrame import AboutFrame
+from DisplayFrame import DisplayFrame
 
 # begin wxGlade: dependencies
 # end wxGlade
@@ -42,6 +43,7 @@ class SinFrogMainWindow(wx.Frame):
         self.PlanCombobox = wx.ComboBox(self, -1, choices=[], style=wx.CB_DROPDOWN | wx.CB_DROPDOWN)
         self.SaveButton = wx.Button(self, wx.ID_SAVE, "")
         self.QuitButton = wx.Button(self, wx.ID_EXIT, "")
+        self.RunButton = wx.Button(self, -1, "Run")
 
         self.__set_properties()
         self.__do_layout()
@@ -52,6 +54,7 @@ class SinFrogMainWindow(wx.Frame):
         self.Bind(wx.EVT_COMBOBOX, self.IspChanged, self.IspCombobox)
         self.Bind(wx.EVT_BUTTON, self.saveMenu, self.SaveButton)
         self.Bind(wx.EVT_BUTTON, self.quitMenu, self.QuitButton)
+        self.Bind(wx.EVT_BUTTON, self.runButton, self.RunButton)
         # end wxGlade
         
         self.DistrictsCombobox.AppendItems(["01 = Raffles Place, Cecil, Marina, People's Park", "02 = Anson, Tanjong Pagar", "03 = Queenstown, Tiong Bahru", "04 = Telok Blangah, Harbourfront", "05 = Pasir Panjang, Hong Leong Garden, Clementi New Town", "06 = High Street, Beach Road (part)", "07 = Middle Road, Golden Mile", "08 = Little India", "09 = Orchard, Cairnhill, River Valley", "10 = Ardmore, Bukit Timah, Holland Road, Tanglin", "11 = Watten Estate,,Novena, Thomson", "12 = Balestier, Toa Payoh, Serangoon", "13 = Macpherson, Braddell", "14 = Geylang, Eunos", "15 = Katong, Joo Chiat,,Amber Road", "16 = Bedok, Upper East Coast, Eastwood, Kew Drive", "17 = Loyang, Changi", "18 = Simei, Tampines, Pasir Ris", "19 = Serangoon,Garden, Hougang, Ponggol", "20 = Bishan, Ang Mo Kio", "21 = Upper Bukit Timah, Clementi Park, Ulu Pandan", "22 = Jurong", "23 = Hillview, Dairy Farm, Bukit Panjang, Choa Chu Kang", "24 = Lim Chu Kang, Tengah", "25 = Kranji, Woodgrove, Woodlands", "26 = Upper Thomson, Springleaf", "27 = Yishun, Sembawang", "28 = Seletar"])
@@ -85,6 +88,7 @@ class SinFrogMainWindow(wx.Frame):
         SinFrogSizer.Add(PreferencesSizer, 1, wx.EXPAND, 0)
         ButtonSizer.Add(self.SaveButton, 0, wx.EXPAND, 0)
         ButtonSizer.Add(self.QuitButton, 0, wx.EXPAND, 0)
+        ButtonSizer.Add(self.RunButton, 0, wx.EXPAND, 0)
         SinFrogSizer.Add(ButtonSizer, 1, wx.EXPAND, 0)
         self.SetSizer(SinFrogSizer)
         SinFrogSizer.Fit(self)
@@ -126,5 +130,9 @@ class SinFrogMainWindow(wx.Frame):
             self.PlanCombobox.Clear()
             self.PlanCombobox.SetValue("Select your SuperInternet plan please.")
             self.PlanCombobox.AppendItems(["100Mbps Basic Residential Service / 12 months", "100Mbps Basic Residential Service / 24 months", "100Mbps Home Premium Service / 12 months", "100Mbps Home Premium Service / 24 months"])
+
+    def runButton(self, event):  # wxGlade: SinFrogMainWindow.<event_handler>
+        display = DisplayFrame(None)
+        display.Show()
 
 # end of class SinFrogMainWindow
