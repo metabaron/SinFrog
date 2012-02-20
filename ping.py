@@ -1,5 +1,3 @@
-#!/usr/bin/env python
- 
 """
     A pure python ping implementation using raw socket.
  
@@ -199,29 +197,28 @@ def do_one(dest_addr, timeout):
     return delay
  
  
-def verbose_ping(dest_addr, timeout = 2, count = 4):
+def verbose_ping(dest_addr, timeout = 2, count = 4, displayTarget = None):
     """
     Send >count< ping to >dest_addr< with the given >timeout< and display
     the result.
     """
     for i in xrange(count):
-        print "ping %s..." % dest_addr,
+        displayTarget.DisplayCtrl.AppendText("\n" + "ping %s..." % dest_addr)
+        #print "ping %s..." % dest_addr,
         try:
             delay  =  do_one(dest_addr, timeout)
         except socket.gaierror, e:
-            print "failed. (socket error: '%s')" % e[1]
+            displayTarget.DisplayCtrl.AppendText("\n" + "failed. (socket error: '%s')" % e[1])
+            #print "failed. (socket error: '%s')" % e[1]
             break
  
         if delay  ==  None:
-            print "failed. (timeout within %ssec.)" % timeout
+            displayTarget.DisplayCtrl.AppendText("\n" + "failed. (timeout within %ssec.)" % timeout)
+            #print "failed. (timeout within %ssec.)" % timeout
         else:
-            delay  =  delay * 1000
-            print "get ping in %0.4fms" % delay
-    print
- 
- 
-if __name__ == '__main__':
-    verbose_ping("heise.de")
-    verbose_ping("google.com")
-    verbose_ping("a-test-url-taht-is-not-available.com")
-    verbose_ping("192.168.1.1")
+            if delay != 0:
+                delay  =  delay * 1000
+                displayTarget.DisplayCtrl.AppendText("\n" + "get ping in %0.4fms" % delay)
+                #print "get ping in %0.4fms" % delay
+            else:
+                displayTarget.DisplayCtrl.AppendText("\n" + "Too fast, discarding the result")

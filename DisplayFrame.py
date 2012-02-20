@@ -17,7 +17,7 @@ class DisplayFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.DisplayFrame_statusbar = self.CreateStatusBar(1, 0)
-        self.DisplayCtrl = wx.TextCtrl(self, -1, "test\ntest2\ntest3", style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.DisplayCtrl = wx.TextCtrl(self, -1, "Update page", style=wx.TE_MULTILINE | wx.TE_READONLY)
 
         self.__set_properties()
         self.__do_layout()
@@ -26,20 +26,19 @@ class DisplayFrame(wx.Frame):
     def __set_properties(self):
         # begin wxGlade: DisplayFrame.__set_properties
         self.SetTitle("Display")
+        self.SetSize((349, 299))
         self.DisplayFrame_statusbar.SetStatusWidths([-1])
         # statusbar fields
         DisplayFrame_statusbar_fields = ["Application running"]
         for i in range(len(DisplayFrame_statusbar_fields)):
             self.DisplayFrame_statusbar.SetStatusText(DisplayFrame_statusbar_fields[i], i)
-        self.DisplayCtrl.SetMinSize((288, 125))
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: DisplayFrame.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(self.DisplayCtrl, 0, 0, 0)
+        sizer_1.Add(self.DisplayCtrl, 1, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
         self.Layout()
         # end wxGlade
 
