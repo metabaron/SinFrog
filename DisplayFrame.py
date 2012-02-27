@@ -17,7 +17,7 @@ class DisplayFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.DisplayFrame_statusbar = self.CreateStatusBar(1, 0)
-        self.DisplayCtrl = wx.TextCtrl(self, -1, "Update page", style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.DisplayCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
 
         self.__set_properties()
         self.__do_layout()

@@ -15,6 +15,7 @@ class SpeedClass(threading.Thread):
         f = urllib2.urlopen(self.url)
         start = time.time()
         
+        self.displayTarget.DisplayCtrl.AppendText("\n" + "Chuncked reading from " + self.url)
         data = ''
         text = 'Chunked'
         while True:
@@ -28,9 +29,11 @@ class SpeedClass(threading.Thread):
         
         g = urllib2.urlopen(self.url)
         start = time.time()
+        self.displayTarget.DisplayCtrl.AppendText("\n" + "Reading in one block from " + self.url)
         text = 'All data'
         data = g.read() # read all data in a single, blocking operation
         g.close()
             
         total = time.time() - start
         self.displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (len(data) / 1024.0) / total))
+        self.displayTarget.DisplayCtrl.AppendText("\n" + "Done. Please close this window")
