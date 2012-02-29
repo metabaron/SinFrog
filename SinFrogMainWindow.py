@@ -203,12 +203,10 @@ class SinFrogMainWindow(wx.Frame):
         verbose_ping("yahoo.com", displayTarget = display, user = self.userIdentification)
         display.DisplayFrame_statusbar.SetStatusText("\nPinging google.com")
         verbose_ping("google.com", displayTarget = display, user = self.userIdentification)
-        #display.DisplayFrame_statusbar.SetStatusText("\nPinging cnn.com")
-        #verbose_ping("cnn.com", displayTarget = display, user = self.userIdentification)
         display.DisplayFrame_statusbar.SetStatusText("Pinging done")
             
         display.DisplayFrame_statusbar.SetStatusText("Speed testing")
-        speedClass = SpeedClass('http://itc.conversationsnetwork.org/audio/download/ITC.SO-Episode69-2009.09.29.mp3', display)
-        #speedClass.start()
+        speedClass = SpeedClass('http://itc.conversationsnetwork.org/audio/download/ITC.SO-Episode69-2009.09.29.mp3', display, user = self.userIdentification)
+        speedClass.start()
 
 # end of class SinFrogMainWindow

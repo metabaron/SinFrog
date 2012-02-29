@@ -1,4 +1,4 @@
-import time, urllib2, threading
+import time, threading, urllib2, json
 
 class SpeedClass(threading.Thread):
     def report(start, size, text, displayTarget):
@@ -6,8 +6,9 @@ class SpeedClass(threading.Thread):
         displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (size / 1024.0) / total))
         #print "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (size / 1024.0) / total)
 
-    def __init__(self, url, displayTarget = None):
+    def __init__(self, url, displayTarget = None,  user = None):
         self.url = url
+        self.user = user
         self.displayTarget = displayTarget
         threading.Thread.__init__(self)
         
@@ -27,6 +28,13 @@ class SpeedClass(threading.Thread):
         total = time.time() - start
         self.displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (len(data) / 1024.0) / total))
         
+        url = ('http://sinfrog.metabaron.net/rate.php')
+        data = json.dumps({"userID": self.user, "target": self.url, "type": text, "rate": (len(data) / 1024.0) / total})
+        clen = len(data)
+        req = urllib2.Request(url, data, {'Content-Type': 'application/json', 'Content-Length': clen})
+        f = urllib2.urlopen(req)
+        f.close()
+        
         g = urllib2.urlopen(self.url)
         start = time.time()
         self.displayTarget.DisplayCtrl.AppendText("\n" + "Reading in one block from " + self.url)
@@ -37,3 +45,10 @@ class SpeedClass(threading.Thread):
         total = time.time() - start
         self.displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (len(data) / 1024.0) / total))
         self.displayTarget.DisplayCtrl.AppendText("\n" + "Done. Please close this window")
+        
+        url = ('http://sinfrog.metabaron.net/rate.php')
+        data = json.dumps({"userID": self.user, "target": self.url, "type": text, "rate": (len(data) / 1024.0) / total})
+        clen = len(data)
+        req = urllib2.Request(url, data, {'Content-Type': 'application/json', 'Content-Length': clen})
+        f = urllib2.urlopen(req)
+        f.close()
