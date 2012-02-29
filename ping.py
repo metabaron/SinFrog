@@ -81,7 +81,7 @@
 """
  
  
-import os, sys, socket, struct, select, time
+import os, sys, socket, struct, select, time, urllib2, json
  
 # From /usr/include/linux/icmp.h; your milage may vary.
 ICMP_ECHO_REQUEST = 8 # Seems to be the same on Solaris.
@@ -197,11 +197,13 @@ def do_one(dest_addr, timeout):
     return delay
  
  
-def verbose_ping(dest_addr, timeout = 2, count = 4, displayTarget = None):
+def verbose_ping(dest_addr, timeout = 2, count = 4, displayTarget = None, user = None):
     """
     Send >count< ping to >dest_addr< with the given >timeout< and display
     the result.
     """
+    validPing = 0
+    totalLatency = 0
     for i in xrange(count):
         displayTarget.DisplayCtrl.AppendText("\n" + "ping %s..." % dest_addr)
         #print "ping %s..." % dest_addr,
@@ -217,8 +219,17 @@ def verbose_ping(dest_addr, timeout = 2, count = 4, displayTarget = None):
             #print "failed. (timeout within %ssec.)" % timeout
         else:
             if delay != 0:
+                validPing = validPing + 1
                 delay  =  delay * 1000
+                totalLatency = totalLatency + delay
                 displayTarget.DisplayCtrl.AppendText("\n" + "get ping in %0.4fms" % delay)
                 #print "get ping in %0.4fms" % delay
             else:
                 displayTarget.DisplayCtrl.AppendText("\n" + "Too fast, discarding the result")
+    if validPing > 0:
+        url = ('http://sinfrog.metabaron.net/ping.php')
+        data = json.dumps({"userID": user, "pingTime": totalLatency / validPing, "server": dest_addr})
+        clen = len(data)
+        req = urllib2.Request(url, data, {'Content-Type': 'application/json', 'Content-Length': clen})
+        f = urllib2.urlopen(req)
+        f.close()
