@@ -6,13 +6,23 @@ class SpeedClass(threading.Thread):
         displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (size / 1024.0) / total))
         #print "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (size / 1024.0) / total)
 
-    def __init__(self, url, displayTarget = None,  user = None):
-        self.url = url
+    def __init__(self, displayTarget = None,  user = None):
         self.user = user
         self.displayTarget = displayTarget
         threading.Thread.__init__(self)
         
     def run(self):
+        #http://www.thinkbroadband.com/download.html
+        #http://www.speedtest.com.sg/speedtest.php
+        self.displayTarget.DisplayFrame_statusbar.SetStatusText("Download speed: Start")
+        urlList = ["http://ipv4.download.thinkbroadband.com/5MB.zip", "http://www.speedtest.com.sg/test_random_10mb.zip"]
+        for urlItem in urlList:
+            self.test(urlItem)
+        self.displayTarget.DisplayCtrl.AppendText("\n" + "Done. Please close this window")
+        self.displayTarget.DisplayFrame_statusbar.SetStatusText("Download speed: Done")
+    
+    def test(self, url):
+        self.url = url
         f = urllib2.urlopen(self.url)
         start = time.time()
         
@@ -44,7 +54,6 @@ class SpeedClass(threading.Thread):
             
         total = time.time() - start
         self.displayTarget.DisplayCtrl.AppendText("\n" + "%s reading took %d seconds, transfer rate %.2f KBPS" % (text, total, (len(data) / 1024.0) / total))
-        self.displayTarget.DisplayCtrl.AppendText("\n" + "Done. Please close this window")
         
         url = ('http://sinfrog.metabaron.net/rate.php')
         data = json.dumps({"userID": self.user, "target": self.url, "type": text, "rate": (len(data) / 1024.0) / total})
