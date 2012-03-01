@@ -200,18 +200,8 @@ class SinFrogMainWindow(wx.Frame):
         self.SinFrogMainWindow_statusbar.SetStatusText("Running tests.")
         display = DisplayFrame(None)
         display.Show()
-        
-        #display.DisplayFrame_statusbar.SetStatusText("\nPinging US google.com")
-        #verbose_ping("google.com", displayTarget = display, user = self.userIdentification)
-        #display.DisplayFrame_statusbar.SetStatusText("\nPinging FRANCE free.fr")
-        #verbose_ping("free.fr", displayTarget = display, user = self.userIdentification)
-        #display.DisplayFrame_statusbar.SetStatusText("Pinging done")
-        
         self.r = RepeatTimer(300.0, runTests, 0, [display, self.userIdentification])
         self.r.start()
-        #display.DisplayFrame_statusbar.SetStatusText("\n\nSpeed testing")
-        #speedClass = SpeedClass(display, user = self.userIdentification)
-        #speedClass.start()
 
 # end of class SinFrogMainWindow
 def runTests(display, user):

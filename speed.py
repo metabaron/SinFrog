@@ -18,7 +18,6 @@ class SpeedClass(threading.Thread):
         urlList = ["http://ipv4.download.thinkbroadband.com/5MB.zip", "http://www.speedtest.com.sg/test_random_10mb.zip"]
         for urlItem in urlList:
             self.test(urlItem)
-        self.displayTarget.DisplayCtrl.AppendText("\n" + "Done. Please close this window")
         self.displayTarget.DisplayFrame_statusbar.SetStatusText("Download speed: Done")
     
     def test(self, url):
