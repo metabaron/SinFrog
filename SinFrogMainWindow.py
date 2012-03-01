@@ -207,7 +207,7 @@ class SinFrogMainWindow(wx.Frame):
         #verbose_ping("free.fr", displayTarget = display, user = self.userIdentification)
         #display.DisplayFrame_statusbar.SetStatusText("Pinging done")
         
-        self.r = RepeatTimer(300.0, runTests, 2, [display, self.userIdentification])
+        self.r = RepeatTimer(300.0, runTests, 0, [display, self.userIdentification])
         self.r.start()
         #display.DisplayFrame_statusbar.SetStatusText("\n\nSpeed testing")
         #speedClass = SpeedClass(display, user = self.userIdentification)
