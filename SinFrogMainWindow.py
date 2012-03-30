@@ -73,7 +73,7 @@ class SinFrogMainWindow(wx.Frame):
         self.SetTitle("SinFrog")
         self.SinFrogMainWindow_statusbar.SetStatusWidths([-1])
         # statusbar fields
-        SinFrogMainWindow_statusbar_fields = ["SinFrogMainWindow_statusbar"]
+        SinFrogMainWindow_statusbar_fields = ["SinFrog"]
         for i in range(len(SinFrogMainWindow_statusbar_fields)):
             self.SinFrogMainWindow_statusbar.SetStatusText(SinFrogMainWindow_statusbar_fields[i], i)
         self.DistrictsCombobox.SetMinSize((300, 21))
@@ -200,7 +200,9 @@ class SinFrogMainWindow(wx.Frame):
         self.SinFrogMainWindow_statusbar.SetStatusText("Running tests.")
         display = DisplayFrame(None)
         display.Show()
-        self.r = RepeatTimer(300.0, runTests, 0, [display, self.userIdentification])
+        #Wait 900 seconds = 15 minutes
+        self.r = RepeatTimer(900.0, runTests, 0, [display, self.userIdentification])
+        #self.r = threading.Thread(runTests(display, self.userIdentification))
         self.r.start()
 
 # end of class SinFrogMainWindow
