@@ -8,6 +8,12 @@ from DisplayFrame import DisplayFrame
 from ping import verbose_ping
 from speed import SpeedClass
 
+from Administrator import Administrator
+import pythoncom
+import pywintypes
+import win32api
+from win32com.shell import shell
+
 
 # begin wxGlade: dependencies
 # end wxGlade
@@ -197,13 +203,18 @@ class SinFrogMainWindow(wx.Frame):
 
     #Start ping and download tests
     def runButton(self, event):  # wxGlade: SinFrogMainWindow.<event_handler>
-        self.SinFrogMainWindow_statusbar.SetStatusText("Running tests.")
-        display = DisplayFrame(None)
-        display.Show()
-        #Wait 900 seconds = 15 minutes
-        self.r = RepeatTimer(900.0, runTests, 0, [display, self.userIdentification])
-        #self.r = threading.Thread(runTests(display, self.userIdentification))
-        self.r.start()
+        if shell.IsUserAnAdmin():
+            self.SinFrogMainWindow_statusbar.SetStatusText("Running tests.")
+            display = DisplayFrame(None)
+            display.Show()
+            #Wait 900 seconds = 15 minutes
+            self.r = RepeatTimer(900.0, runTests, 0, [display, self.userIdentification])
+            #self.r = threading.Thread(runTests(display, self.userIdentification))
+            self.r.start()
+        else:
+            administratorFrame = Administrator(None)
+            administratorFrame.Show()
+            administratorFrame.Raise()
 
 # end of class SinFrogMainWindow
 def runTests(display, user):
