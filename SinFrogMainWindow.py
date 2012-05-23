@@ -7,7 +7,7 @@ from AboutFrame import AboutFrame
 from DisplayFrame import DisplayFrame
 from ping import verbose_ping
 from speed import SpeedClass
-from time import clock, time
+from time import time
 from datetime import datetime, timedelta
 
 from Administrator import Administrator
